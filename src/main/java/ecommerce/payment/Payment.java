@@ -1,5 +1,6 @@
 package ecommerce.payment;
 
+import ecommerce.order.Order;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,8 +16,10 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String method;   // cash / visa
-    private String status;   // paid / pending
+    private String method; // cash / visa
+    private String status; // paid / pending
 
-    private Long orderId; // مؤقتًا (هنربطه بعدين)
+    @OneToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 }
