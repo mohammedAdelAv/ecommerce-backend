@@ -1,10 +1,10 @@
-package section3database.section3database;
+package ecommerce;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Section3databaseApplicationTests {
+class ecommerceApplicationTests {
 
 	@Test
 	void contextLoads() {
