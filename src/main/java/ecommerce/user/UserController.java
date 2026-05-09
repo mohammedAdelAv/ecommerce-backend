@@ -2,6 +2,8 @@ package ecommerce.user;
 
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -14,13 +16,15 @@ public class UserController {
 
     // Register
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
+    public User register(@Valid @RequestBody User user) {
+        user.setRole("USER");
         return userService.register(user);
     }
 
     // Login
-  @PostMapping("/login")
-public String login(@RequestBody User user) {
-    return userService.login(user.getUsername(), user.getPassword());
-}
+    @PostMapping("/login")
+    public String login(@RequestBody User user) {
+
+        return userService.login(user.getEmail(), user.getPassword());
+    }
 }

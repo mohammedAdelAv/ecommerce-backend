@@ -23,4 +23,12 @@ public class OrderController {
     public List<Order> getAll() {
         return orderService.getAll();
     }
+
+    @PutMapping("/{id}/status")
+    public Order updateStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
+
+        return orderService.updateStatus(id, status);
+    }
 }

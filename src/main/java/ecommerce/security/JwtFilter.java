@@ -16,29 +16,44 @@ public class JwtFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+    public void doFilter(ServletRequest request,
+            ServletResponse response,
+            FilterChain chain)
             throws IOException, ServletException {
 
         HttpServletRequest req = (HttpServletRequest) request;
 
+        String path = req.getRequestURI();
+
+        // السماح بالـ login و register و الصور
+        if (path.contains("/login") ||
+                path.contains("/register") ||
+                path.contains("/images")) {
+
+            chain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = req.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
             String token = authHeader.substring(7);
 
             try {
+
                 String username = jwtUtil.extractUsername(token);
+
                 System.out.println("User: " + username);
+
             } catch (Exception e) {
+
                 throw new RuntimeException("Invalid token");
             }
-        } else {
-            String path = req.getRequestURI();
 
-            // السماح فقط للـ login و register
-            if (!path.contains("/login") && !path.contains("/register")) {
-                throw new RuntimeException("Unauthorized");
-            }
+        } else {
+
+            throw new RuntimeException("Unauthorized");
         }
 
         chain.doFilter(request, response);

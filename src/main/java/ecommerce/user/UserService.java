@@ -23,9 +23,9 @@ public class UserService {
     }
 
     // Login
-    public String login(String username, String password) {
+    public String login(String email, String password) {
 
-        User user = userRepo.findByUsername(username)
+        User user = userRepo.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!user.getPassword().equals(password)) {
