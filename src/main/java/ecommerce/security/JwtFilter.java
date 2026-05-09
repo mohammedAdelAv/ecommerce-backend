@@ -23,17 +23,6 @@ public class JwtFilter implements Filter {
 
         HttpServletRequest req = (HttpServletRequest) request;
 
-        String path = req.getRequestURI();
-
-        // السماح بالـ login و register و الصور
-        if (path.contains("/login") ||
-                path.contains("/register") ||
-                path.contains("/images")) {
-
-            chain.doFilter(request, response);
-            return;
-        }
-
         String authHeader = req.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -50,10 +39,6 @@ public class JwtFilter implements Filter {
 
                 throw new RuntimeException("Invalid token");
             }
-
-        } else {
-
-            throw new RuntimeException("Unauthorized");
         }
 
         chain.doFilter(request, response);
